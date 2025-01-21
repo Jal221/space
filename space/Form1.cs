@@ -174,7 +174,7 @@ namespace space
             {
                 int y = random.Next(0, this.Height);
                 int size = random.Next(5, 15);
-                int speed = random.Next(4, 7);
+                int speed = random.Next(5, 8);
                 balls.Add(new Rectangle(0, y, size, size));
                 ballspeeds.Add(speed);
                 ballsizes.Add(size);
@@ -183,7 +183,7 @@ namespace space
             {
                 int y = random.Next(0, this.Height);
                 int size = random.Next(5, 15);
-                int speed = random.Next(5, 10);
+                int speed = random.Next(5, 8);
                 balls.Add(new Rectangle(this.Width, y, size, size));
                 ballspeeds.Add(-speed);
                 ballsizes.Add(size);
@@ -199,13 +199,7 @@ namespace space
             }
 
 
-            for (int i = 0; i < balls.Count; i++)
-            {
-                balls[i] = new Rectangle(balls[i].X + ballspeeds[i], balls[i].Y, ballsizes[i], ballsizes[i]);
-
-                if (balls[i].X <= 0 || balls[i].X >= this.Width - balls[i].Width)
-                    ballspeeds[i] = -ballspeeds[i];
-            }
+           
 
 
 
