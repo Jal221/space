@@ -12,12 +12,11 @@ namespace space
 {
     public partial class Form1 : Form
     {
-
         Random random = new Random();
 
         Rectangle player1 = new Rectangle(60, 300, 12, 22);
         Rectangle player2 = new Rectangle(500, 300, 12, 22);
-        
+
 
         SolidBrush whiteBrush = new SolidBrush(Color.White);
         Pen blackPen = new Pen(Color.Black, 5);
@@ -37,8 +36,8 @@ namespace space
         int player2Speed = 4;
 
         List<Rectangle> balls = new List<Rectangle>();
-        List <int> ballspeeds = new List<int> ();
-        List <int> ballsizes = new List<int> (); 
+        List<int> ballspeeds = new List<int>();
+        List<int> ballsizes = new List<int>();
 
         public Form1()
         {
@@ -51,9 +50,14 @@ namespace space
             e.Graphics.DrawRectangle(blackPen, player2);
             e.Graphics.FillRectangle(whiteBrush, player1);
             e.Graphics.FillRectangle(whiteBrush, player2);
+
+            for (int i = 0; i < balls.Count; i++)
+            {
+                e.Graphics.FillEllipse(whiteBrush, balls[i]);
+            }
         }
 
-        
+
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
@@ -130,7 +134,7 @@ namespace space
                 player1.Y += player1Speed;
 
             }
-            Refresh();
+           
 
             if (aPressed == true && player1.X > 0)
             {
@@ -164,23 +168,23 @@ namespace space
             {
                 player2.X += player2Speed;
             }
+            int check = random.Next(1, 101);
 
-
-            if (random.Next(0,101) < 15)
+            if (check > 140)
             {
                 int y = random.Next(0, this.Height);
-                int size = random.Next(5,15);
-                int speed = random.Next(5,10);
-                balls.Add(new Rectangle(0, y , size, size));
-                ballspeeds.Add(speed);  
+                int size = random.Next(5, 15);
+                int speed = random.Next(4, 7);
+                balls.Add(new Rectangle(0, y, size, size));
+                ballspeeds.Add(speed);
                 ballsizes.Add(size);
             }
-            else if (random.Next(0,101) < 15)
+            else if (check > 90 && check < 95) ;
             {
                 int y = random.Next(0, this.Height);
                 int size = random.Next(5, 15);
                 int speed = random.Next(5, 10);
-                balls.Add(new Rectangle(this.Width, y , size , size));
+                balls.Add(new Rectangle(this.Width, y, size, size));
                 ballspeeds.Add(-speed);
                 ballsizes.Add(size);
             }
@@ -197,7 +201,7 @@ namespace space
 
             for (int i = 0; i < balls.Count; i++)
             {
-                balls[i] = new Rect-angle(balls[i].X + ballspeeds[i], balls[i].Y, ballsizes[i], ballsizes[i]);
+                balls[i] = new Rectangle(balls[i].X + ballspeeds[i], balls[i].Y, ballsizes[i], ballsizes[i]);
 
                 if (balls[i].X <= 0 || balls[i].X >= this.Width - balls[i].Width)
                     ballspeeds[i] = -ballspeeds[i];
@@ -205,6 +209,40 @@ namespace space
 
 
 
+            for (int i = 0; i < balls.Count; i++)
+            {
+                if (player1.IntersectsWith(balls[i]))
+                {
+                    balls.RemoveAt(i);
+                    ballspeeds.RemoveAt(i);
+                    ballsizes.RemoveAt(i);
+
+                    player1.Y = this.Height - player1.Height - 50;
+                }
+
+
+
+                if (player2.IntersectsWith(balls[i])) 
+                {
+
+                    balls.RemoveAt(i);
+                    ballspeeds.RemoveAt(i);
+                    ballsizes.RemoveAt(i);
+
+                    player2.Y = this.Height - player2.Height - 50;  
+                }
+            }
+
+
+            Refresh();
+
+
+
+
+
         }
     }
 }
+
+       
+    
